@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
-from rest_framework import mixins, generics
+from rest_framework import mixins, generics, viewsets
 
 # Create your views here.
 @api_view(['GET', 'POST'])
@@ -106,7 +106,8 @@ class StudentDetail(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
 """
 
-# Mixins
+# Mixins Class based Views
+"""
 class StudentsView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
     queryset = Student.objects.all() # this variable should be queryset ONLY
     serializer_class = StudentSerializer # the variable should be serializer_class ONLY
@@ -118,9 +119,34 @@ class StudentsView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.Gene
         return self.create(request) # coming from CreateModelMixin
 
 
-class StudentDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
+class StudentDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
     def get(self, request, pk):
         return self.retrieve(request, pk)
+    
+    def put(self, request, pk):
+        return self.update(request, pk)
+    
+    def delete(self, request, pk):
+        return self.destroy(request, pk)
+"""
+
+# Generics Class based views
+
+"""class StudentsView(generics.ListCreateAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+class StudentDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+    # lookup_field = 'pk'
+"""
+
+# Class based View using View Sets
+class StudentsView(viewsets.ModelViewSet):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
