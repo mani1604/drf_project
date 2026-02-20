@@ -9,5 +9,6 @@ urlpatterns = [
     path("teachers/", views.teachers_api_view),
     path("teacher/<int:pk>/", views.teacher_detail),
     path("", include(router.urls)),
-    path("mentors/", views.MentorsView.as_view())
+    path("mentors/", views.MentorsView.as_view()),
+    path("mentors/<str:pk>", views.MentorDetails.as_view())
 ]

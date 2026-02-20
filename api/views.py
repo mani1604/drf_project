@@ -154,3 +154,8 @@ class StudentsView(viewsets.ModelViewSet):
 class MentorsView(generics.ListCreateAPIView):
     queryset = Mentor.objects.all()
     serializer_class = MentorSerializer
+
+class MentorDetails(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Mentor.objects.all()
+    serializer_class = MentorSerializer
+ 

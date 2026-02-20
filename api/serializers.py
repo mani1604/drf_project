@@ -11,13 +11,16 @@ class TeacherSerializer(serializers.ModelSerializer):
 
 class StudentSerializer(serializers.ModelSerializer):
     mentor = serializers.SlugRelatedField(
-       slug_field="mentor_name", queryset=Mentor.objects.all()) # this field name should be same as in the Student model
+       slug_field="mentor_name", 
+       queryset=Mentor.objects.all()) # this field name should be same as in the Student model
     class Meta:
         model = Student
         fields = "__all__"
 
 class MentorSerializer(serializers.ModelSerializer):
-    students = StudentSerializer(many=True) # The field name should be same as related_name
+    students = StudentSerializer(many=True, 
+                                 read_only=True) # The field name should be same as related_name
     class Meta:
         model = Mentor
-        fields = ['mentor_id', 'mentor_name', 'mentor_email', 'students']
+        fields = ['mentor_id', 'mentor_name', 
+                  'mentor_email', 'students']
