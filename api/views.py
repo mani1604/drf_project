@@ -9,6 +9,9 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework import mixins, generics, viewsets
+from .paginations import StudentPagination
+from students.filters import StudentFilter
+from mentors.filters import MentorFilter
 
 # Create your views here.
 @api_view(['GET', 'POST'])
@@ -150,10 +153,14 @@ class StudentDetail(generics.RetrieveUpdateDestroyAPIView):
 class StudentsView(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+    pagination_class = StudentPagination
+    # filterset_fields = ['branch'] # field to filter
+    filterset_class = StudentFilter
 
 class MentorsView(generics.ListCreateAPIView):
     queryset = Mentor.objects.all()
     serializer_class = MentorSerializer
+    filterset_class = MentorFilter
 
 class MentorDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Mentor.objects.all()
