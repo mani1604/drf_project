@@ -14,5 +14,3 @@ class MentorFilter(django_filters.FilterSet):
         elif name == "id_max":
             return queryset.filter(mentor_id__lte=value)
         return queryset
-    
-    

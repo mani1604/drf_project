@@ -23,4 +23,4 @@ class MentorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mentor
         fields = ['mentor_id', 'mentor_name', 
-                  'mentor_email', 'students']
+                  'mentor_email', 'mentor_expertise', 'students']
