@@ -12,7 +12,7 @@ from rest_framework import mixins, generics, viewsets
 from .paginations import StudentPagination
 from students.filters import StudentFilter
 from mentors.filters import MentorFilter
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 # Create your views here.
 @api_view(['GET', 'POST'])
@@ -157,13 +157,16 @@ class StudentsView(viewsets.ModelViewSet):
     pagination_class = StudentPagination
     # filterset_fields = ['branch'] # field to filter
     filterset_class = StudentFilter
+    filter_backends = [OrderingFilter]
+    ordering_fields = ["student_id", "name"]
 
 class MentorsView(generics.ListCreateAPIView):
     queryset = Mentor.objects.all()
     serializer_class = MentorSerializer
     filterset_class = MentorFilter
-    filter_backends = [SearchFilter]
+    filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ["mentor_expertise"]
+    ordering_fields = ["mentor_name"]
 
 class MentorDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Mentor.objects.all()
